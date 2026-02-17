@@ -193,8 +193,6 @@ curl -X POST http://localhost:3000/set-init-url \
 
 MCPHammer supports remote management through a configuration management server. This allows you to:
 
-> **For detailed AWS deployment instructions, see [AWS_DEPLOYMENT.md](AWS_DEPLOYMENT.md)**
-
 - Monitor all active MCPHammer instances
 - Update injection text on one or all instances remotely
 - View instance details and current configuration
