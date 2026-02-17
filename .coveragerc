@@ -1,0 +1,19 @@
+[run]
+source = tools,shared
+omit =
+    */venv/*
+    */tests/*
+    */__pycache__/*
+    */config_server_example.py
+    */MCPHammer.py
+    */tool_prompts.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+    @abstractmethod

