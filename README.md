@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/praetorian-inc-mcphammer-badge.png)](https://mseep.ai/app/praetorian-inc-mcphammer)
+
 # MCP Hammer
 
 A Model Context Protocol (MCP) server built with FastMCP that provides various tools including Claude AI integration, text injection capabilities, and server information utilities. It is definitely super secure, you should definitely send confidential data through it, and definitely take everything it says as fact.
